@@ -1,5 +1,5 @@
 import React from 'react';
-import { withFormik, Form, Field, ErrorMessage } from 'formik';
+import { withFormik, Form, Field, ErrorMessage, yupToFormErrors } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 
@@ -35,9 +35,6 @@ function FormTemplate() {
                         placeholder="Password" 
                         />
                 </label>
-                <ErrorMessage 
-                name="terms" 
-                render={err => <div className="errorMessage">{err}</div>}/>
                 <label>Terms of service 
                     <Field 
                         type="checkbox"
@@ -64,11 +61,18 @@ const UserForm = withFormik({
     validationSchema: Yup.object().shape({
         name: Yup.string().required("Please enter your name"),
         email: Yup.string().required("Please provide a current email address"),
-        terms: Yup.boolean().required("Do you agree with the Ters of service?")
-    }),
+        terms: Yup.boolean()
+        }),
 
-    handleSubmit() {
-
+    handleSubmit(userData, func) {
+        axios.post("https://reqres.in/api/users", userData)
+            .then(response => {
+                console.log(response)
+                func.resetForm()
+            })
+            .catch(error => {
+                console.log(error.message)
+            })
     }
 
 
