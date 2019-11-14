@@ -38,6 +38,19 @@ function FormTemplate(props) {
                         placeholder="Password" 
                         />
                 </label>
+                <ErrorMessage 
+                name="role" 
+                render={err => <div className="errorMessage">{err}</div>}/>
+                <label>Role:
+                    <Field as="select" name="role">
+                        <option>Select a role</option>
+                        <option>Student</option>
+                        <option>Full-Stack Developer</option>
+                        <option>Frontend Developer</option>
+                        <option>Backend Developer</option>
+                        <option>UX Designer</option>
+                    </Field>
+                </label>
                 <label>Terms of service 
                     <Field 
                         type="checkbox"
@@ -74,14 +87,18 @@ const UserForm = withFormik({
             name: "",
             email: "",
             password: "",
-            terms: false
+            terms: false,
+            role: ""
         }
     },
     
     validationSchema: Yup.object().shape({
         name: Yup.string().required("Please enter your name"),
         email: Yup.string().required("Please provide a current email address"),
-        terms: Yup.boolean()
+        terms: Yup.boolean(),
+        role: Yup.string()
+            .oneOf(["Student", "Full-Stack Developer", "Frontend Developer", "Backend Developer", "UX Designer"])
+            .required("Please select your role")
     }),
 
     handleSubmit(userData, func){
