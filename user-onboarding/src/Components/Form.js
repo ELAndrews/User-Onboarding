@@ -10,39 +10,42 @@ function FormTemplate(props) {
     
     return(
         <div>
-            <Form>
+            <Form className="formContainer">
                 <ErrorMessage 
                 name="name" 
-                render={err => <div className="errorMessage">{err}</div>}/>
+                render={err => <div className="errorMessage">{err}</div>}/> <br/>
                 <label>Name: 
                     <Field 
+                        className="formInput"
                         type="text"
                         name="name"
                         placeholder="Enter your name" 
                         />
-                </label>
+                </label><br/>
                 <ErrorMessage 
                 name="email" 
-                render={err => <div className="errorMessage">{err}</div>}/>
+                render={err => <div className="errorMessage">{err}</div>}/><br/>
                 <label>Email: 
                     <Field 
+                        className="formInput"
                         type="email"
                         name="email"
                         placeholder="Enter your current email" 
                         />
-                </label>
+                </label><br/>
                 <label>Password: 
                     <Field 
                         type="text"
                         name="password"
                         placeholder="Password" 
+                        className="formInput"
                         />
-                </label>
+                </label><br/>
                 <ErrorMessage 
                 name="role" 
-                render={err => <div className="errorMessage">{err}</div>}/>
+                render={err => <div className="errorMessage">{err}</div>}/><br/>
                 <label>Role:
-                    <Field as="select" name="role">
+                    <Field as="select" name="role" className="formInput">
                         <option>Select a role</option>
                         <option>Student</option>
                         <option>Full-Stack Developer</option>
@@ -50,19 +53,19 @@ function FormTemplate(props) {
                         <option>Backend Developer</option>
                         <option>UX Designer</option>
                     </Field>
-                </label>
+                </label><br/>
                 <label>Terms of service 
                     <Field 
                         type="checkbox"
                         name="terms"
                         />
-                </label>
+                </label><br/>
                 <input type="submit" />
             </Form>
-            <div>
+            <div className="usersList">
                 {
                     props.usersArray.length ===  0 ?
-                    <div>
+                    <div className="userContainer">
                             <span>There are no users present</span>
                         </div> :
                         props.usersArray.map((curr, index) => {
@@ -93,12 +96,12 @@ const UserForm = withFormik({
     },
     
     validationSchema: Yup.object().shape({
-        name: Yup.string().required("Please enter your name"),
-        email: Yup.string().required("Please provide a current email address"),
+        name: Yup.string().required("*Please enter your name"),
+        email: Yup.string().required("*Please provide a current email address"),
         terms: Yup.boolean(),
         role: Yup.string()
             .oneOf(["Student", "Full-Stack Developer", "Frontend Developer", "Backend Developer", "UX Designer"])
-            .required("Please select your role")
+            .required("*Please select your role")
     }),
 
     handleSubmit(userData, func){

@@ -2,6 +2,65 @@
   text-align: center;
   width: 90%;
   max-width: 900px;
-  margin: 0px auto;
+  margin: 50px auto;
+  font-size: 62.5%;
 }
 
+.formContainer{
+  width: 300px;
+  margin: 50px auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-content: center; 
+  border: 2px solid black;
+  padding: 20px;
+  box-shadow: 2px 3px grey;
+  border-radius: 15px;
+  line-height: 1.6;
+}
+
+label{
+  font-size: 1rem;
+  width: 100%;
+  margin: 6px auto;
+}
+
+.formInput{
+  margin: auto 8px;
+  width: 50%;
+}
+
+.usersList{
+  background-color: #F2F1F1;
+  border: 2px solid grey;
+  padding: 30px;
+  box-shadow: 1px 3px grey;
+  border-radius: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.userContainer{
+  background-color: white;
+  border: 2px solid grey;
+  padding: 10px;
+  box-shadow: 1px 3px grey;
+  border-radius: 10px;
+  width: 200px;
+}
+
+.editBtn{
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.errorMessage{
+  color: red;
+  font-weight: bold;
+  font-style: italic;
+  position: relative;
+  top: 5px;
+  left: 50px;
+}

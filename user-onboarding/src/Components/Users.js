@@ -1,5 +1,5 @@
 import React from 'react';
-import { withFormik, Form, Field, ErrorMessage, yupToFormErrors } from 'formik';
+import { withFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 
@@ -7,13 +7,13 @@ import axios from 'axios';
 function DisplayUsers(props) {
 
     return(
-        <div>
+        <div className="userContainer">
         <div key={props.index}>
             <h4>Name: {props.curr.name}</h4>
             <p>Email: {props.curr.email}</p>
             <p>Role: {props.curr.role}</p>
         </div>
-        <button >Edit</button>
+        <button className="editBtn">Edit</button>
 
         </div>
     )
@@ -28,9 +28,6 @@ const Users = withFormik({
             terms: false
         }
     },
-
- 
-
 
 })(DisplayUsers)
 
