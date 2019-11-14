@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withFormik, Form, Field, ErrorMessage, yupToFormErrors } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import Users from './Users';
+
+let usersArray = [];
 
 function FormTemplate() {
-
+    
+    
     return(
         <div>
             <Form>
@@ -43,6 +47,23 @@ function FormTemplate() {
                 </label>
                 <input type="submit" />
             </Form>
+            <div>
+                {
+                    usersArray.length >= 0 ?
+                    usersArray.map((curr, index) => {
+                        return (
+                            <div key={index}>
+                                <Users 
+                                curr={curr}
+                                index={index}/>
+                            </div>
+                        )
+                    }) :
+                    <div>
+                        <span>There are no users present</span>
+                    </div>
+                }
+            </div>
 
         </div>
     )
@@ -67,8 +88,10 @@ const UserForm = withFormik({
     handleSubmit(userData, func) {
         axios.post("https://reqres.in/api/users", userData)
             .then(response => {
-                console.log(response)
+                console.log(response.data)
                 func.resetForm()
+                usersArray.push(response.data)
+                console.log(usersArray)
             })
             .catch(error => {
                 console.log(error.message)
