@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { withFormik, Form, Field, ErrorMessage, yupToFormErrors } from 'formik';
+import { withFormik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import Users from './Users';
 
-let usersArray = [];
 
-function FormTemplate() {
+function FormTemplate(props) {
     
     
     return(
@@ -49,20 +48,20 @@ function FormTemplate() {
             </Form>
             <div>
                 {
-                    usersArray.length >= 0 ?
-                    usersArray.map((curr, index) => {
-                        return (
-                            <div key={index}>
-                                <Users 
-                                curr={curr}
-                                index={index}/>
-                            </div>
-                        )
-                    }) :
+                    props.usersArray.length ===  0 ?
                     <div>
-                        <span>There are no users present</span>
-                    </div>
-                }
+                            <span>There are no users present</span>
+                        </div> :
+                        props.usersArray.map((curr, index) => {
+                            return (
+                                <div key={index}>
+                                    <Users 
+                                    curr={curr}
+                                    index={index}/>
+                                </div>
+                                 )
+                                }) 
+                            }
             </div>
 
         </div>
@@ -78,27 +77,27 @@ const UserForm = withFormik({
             terms: false
         }
     },
-
+    
     validationSchema: Yup.object().shape({
         name: Yup.string().required("Please enter your name"),
         email: Yup.string().required("Please provide a current email address"),
         terms: Yup.boolean()
-        }),
+    }),
 
-    handleSubmit(userData, func) {
+    handleSubmit(userData, func){
+        console.log(func)
+        console.log(userData)
         axios.post("https://reqres.in/api/users", userData)
             .then(response => {
                 console.log(response.data)
                 func.resetForm()
-                usersArray.push(response.data)
-                console.log(usersArray)
+                func.props.setUsersArray([...func.props.usersArray, response.data])
             })
             .catch(error => {
                 console.log(error.message)
             })
     }
-
-
+    
 })(FormTemplate)
 
 export default UserForm;

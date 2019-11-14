@@ -1,18 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import UserForm from './Components/Form';
-import Users from './Components/Users';
-
 
 
 
 function App() {
+
+  const [usersArray, setUsersArray] = useState([]);
+
   return (
     <div className="App">
-    <UserForm />
-    {/* <Users 
-      users={users}/> */}
+    <UserForm 
+    usersArray={usersArray}
+    setUsersArray={setUsersArray}/>
     </div>
   );
 }
