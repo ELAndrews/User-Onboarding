@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { withFormik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -11,10 +11,7 @@ function FormTemplate(props) {
     return(
         <div>
             <Form className="formContainer">
-                <ErrorMessage 
-                name="name" 
-                render={err => <div className="errorMessage">{err}</div>}/> <br/>
-                <label>Name: 
+                <label>Name: <br />
                     <Field 
                         className="formInput"
                         type="text"
@@ -23,9 +20,9 @@ function FormTemplate(props) {
                         />
                 </label><br/>
                 <ErrorMessage 
-                name="email" 
-                render={err => <div className="errorMessage">{err}</div>}/><br/>
-                <label>Email: 
+                name="name" 
+                render={err => <div className="errorMessage">{err}</div>}/> <br/>
+                <label>Email: <br />
                     <Field 
                         className="formInput"
                         type="email"
@@ -33,7 +30,10 @@ function FormTemplate(props) {
                         placeholder="Enter your current email" 
                         />
                 </label><br/>
-                <label>Password: 
+                <ErrorMessage 
+                name="email" 
+                render={err => <div className="errorMessage">{err}</div>}/><br/>
+                <label>Password: <br />
                     <Field 
                         type="text"
                         name="password"
@@ -42,9 +42,9 @@ function FormTemplate(props) {
                         />
                 </label><br/>
                 <ErrorMessage 
-                name="role" 
+                name="password" 
                 render={err => <div className="errorMessage">{err}</div>}/><br/>
-                <label>Role:
+                <label>Role: <br />
                     <Field as="select" name="role" className="formInput">
                         <option>Select a role</option>
                         <option>Student</option>
@@ -54,13 +54,19 @@ function FormTemplate(props) {
                         <option>UX Designer</option>
                     </Field>
                 </label><br/>
+                <ErrorMessage 
+                name="role" 
+                render={err => <div className="errorMessage">{err}</div>}/><br/>
                 <label>Terms of service 
                     <Field 
                         type="checkbox"
                         name="terms"
                         />
                 </label><br/>
-                <input type="submit" />
+                <ErrorMessage 
+                name="terms" 
+                render={err => <div className="errorMessage">{err}</div>}/><br/><br/>
+                <input className="submitBtn" type="submit" />
             </Form>
             <div className="usersList">
                 {
@@ -98,20 +104,24 @@ const UserForm = withFormik({
     validationSchema: Yup.object().shape({
         name: Yup.string().required("*Please enter your name"),
         email: Yup.string().required("*Please provide a current email address"),
-        terms: Yup.boolean(),
+        password: Yup.string()
+                .required("*No password entered")
+                .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/, `Your password must be at least 6 characters, inculding at least 1 letter and 1 number`),
+        terms: Yup.boolean()
+                .oneOf([true], "You must read and accept our terms."),
         role: Yup.string()
             .oneOf(["Student", "Full-Stack Developer", "Frontend Developer", "Backend Developer", "UX Designer"])
             .required("*Please select your role")
     }),
 
-    handleSubmit(userData, func){
-        console.log(func)
+    handleSubmit(userData, formikbag){
+        console.log(formikbag)
         console.log(userData)
         axios.post("https://reqres.in/api/users", userData)
             .then(response => {
                 console.log(response.data)
-                func.resetForm()
-                func.props.setUsersArray([...func.props.usersArray, response.data])
+                formikbag.resetForm()
+                formikbag.props.setUsersArray([...formikbag.props.usersArray, response.data])
             })
             .catch(error => {
                 console.log(error.message)

@@ -13,7 +13,7 @@ function DisplayUsers(props) {
             <p>Email: {props.curr.email}</p>
             <p>Role: {props.curr.role}</p>
         </div>
-        <button className="editBtn">Edit</button>
+        {/* <button className="editBtn">Edit</button> */}
 
         </div>
     )

@@ -28,7 +28,11 @@ label{
 
 .formInput{
   margin: auto 8px;
-  width: 50%;
+  width: 80%;
+}
+
+.submitBtn{
+ margin: 30px auto 10px;;
 }
 
 .usersList{
@@ -61,6 +65,5 @@ label{
   font-weight: bold;
   font-style: italic;
   position: relative;
-  top: 5px;
-  left: 50px;
+  bottom: 6px;
 }
